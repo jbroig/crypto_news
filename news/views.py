@@ -7,20 +7,36 @@ from news.models import Headline
 def scrape(request):
     session = requests.Session()
     session.headers = {"User-Agent": "Googlebot/2.1 (+http://www.google.com/bot.html)"}
-    url = "https://www.theonion.com/"
+    # url = "https://www.theonion.com/"
+    url = "https://www.criptonoticias.com/"
 
     content = session.get(url, verify=False).content
     soup = BSoup(content, "html.parser")
-    News = soup.find_all('div', {"class": "curation-module__item"})
-    for artcile in News:
-        main = artcile.find_all('a')[0]
-        link = main['href']
-        image_src = str(main.find('img')['srcset']).split(" ")[-4]
-        title = main['title']
-        new_headline = Headline()
-        new_headline.title = title
-        new_headline.image = image_src
-        new_headline.save()
+    news = soup.find_all('article')
+
+    # print(news)
+
+    for article in news:
+        main = article.find_all('a')[0]
+        main_src = article.find_all('img')
+
+        if main_src:
+            src = main_src[0]['data-lazy-src']
+            # print(src)
+
+        link = main['href']  # good
+
+        text = main.get_text()  # good
+        # print(text)
+
+        if link and text:
+            new_headline = Headline()
+            new_headline.title = text
+            new_headline.image = src if src else None
+            new_headline.save()
+
+        # print("-"*100)
+
     return redirect("../")
 
 

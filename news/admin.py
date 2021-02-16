@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from news.models import Headline
+
+
+class HeadlineAdmin(admin.ModelAdmin):
+    list_display = ["title"]
+    search_fields = ("title", "url")
+
+
+admin.site.register(Headline, HeadlineAdmin)

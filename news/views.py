@@ -29,13 +29,13 @@ def scrape(request):
         text = main.get_text()  # good
         # print(text)
 
-        if link and text:
+        if link and len(text) > 10:
+            print(text)
+            print(len(text))
             new_headline = Headline()
             new_headline.title = text
             new_headline.image = src if src else None
             new_headline.save()
-
-        # print("-"*100)
 
     return redirect("../")
 

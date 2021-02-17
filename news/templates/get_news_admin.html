@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <center><h1>News Aggregator</h1>
+        <br>
+        <a href="{% url 'scrape' %}" class="btn btn-success">Get my morning news</a>
+        </form>
+    </center>
+</div>
+{% endblock %}

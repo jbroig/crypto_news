@@ -1,24 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="jumbotron">
-    <center><h1>News Aggregator</h1>
-        <a href="{% url 'scrape' %}" class="btn btn-success">Get my morning news</a>
-        </form>
-    </center>
-</div>
-<div class="card-columns" style="padding: 10px; margin: 20px;">
-    {% for object in main_headlines %}
-    <div class="card" style="width: 18rem;border:5px black solid;">
-        <img class="card-img-top" src="{{ object.image }}">
-        <div class="card-body">
-            <h5 class="card-title">
-                <div class="card-body">
-                    <a href="{{object.url}}"><h5 class="card-title">{{object.title}}</h5></a>
-                </div>
-            </h5>
+
+<div class="main" style="border:1px solid black">
+
+    <div class="row">
+        <div class="col-md-8" style="border:1px solid red">
+            <div class="row">
+
+            </div>
+        </div>
+        <div class="col-md-4" style="border:1px solid green">
+            <ul>
+            {% for object in no_image_link %}
+                <li> <a href="{{object.url}}">{{object.title}}</a> </li>
+            {% endfor %}
+            </ul>
         </div>
     </div>
-    {% endfor %}
+
+    <div class="card-columns" style="padding: 10px; margin: 20px;">
+        {% for object in main_headlines %}
+        <div class="card" style="width: 18rem;border:5px black solid;">
+            <img class="card-img-top" src="{{ object.image }}">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <div class="card-body">
+                        <a href="{{object.url}}"><h5 class="card-title">{{object.title}}</h5></a>
+                    </div>
+                </h5>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

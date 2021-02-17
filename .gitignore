@@ -1,0 +1,42 @@
+__pycache__
+*.py[co]
+*.DS_*
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+#Translations
+*.mo
+
+#Mr Developer
+venv
+env
+*.pyc
+build
+Muestra
+.idea
+audios
+config.py
+tests
+test.py
+drafts
+.ipynb_checkpoints
+settings_dev.py
+
+*.csv

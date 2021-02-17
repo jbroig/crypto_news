@@ -22,18 +22,19 @@ def scrape(request):
 
         if main_src:
             src = main_src[0]['data-lazy-src']
-            height = main_src[0]['height']
-            width = main_src[0]['width']
+            height = int(main_src[0]['height'])
+            width = int(main_src[0]['width'])
 
-        link = main['href']
+        url_link = main['href']
         text = main.get_text()
 
-        if link and len(text) > 10:
+        if url_link and len(text) > 10:
             new_headline = Headline()
             new_headline.title = text
+            new_headline.url = url_link
             new_headline.image = src if src else None
-            new_headline.height = height if height else None
-            new_headline.width = width if width else None
+            new_headline.image_height = height if height else None
+            new_headline.image_width = width if width else None
             new_headline.save()
 
     return redirect("../")

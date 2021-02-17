@@ -42,7 +42,13 @@ def scrape(request):
 
 def news_list(request):
     headlines = Headline.objects.all()[::-1]
+
+    main_headlines = Headline.objects.filter(image_width=360)
+    no_image_link = Headline.objects.filter(image_width=80)
+
     context = {
-        'object_list': headlines,
+        'main_headlines': main_headlines,
+        'no_image_link': no_image_link,
+        # 'object_list': headlines,
     }
     return render(request, "home.html", context)

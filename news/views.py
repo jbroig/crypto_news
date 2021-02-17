@@ -38,6 +38,7 @@ def scrape(request):
             new_headline.save()
 
     return redirect("../")
+    # return redirect("../")
 
 
 def news_list(request):
@@ -52,3 +53,8 @@ def news_list(request):
         # 'object_list': headlines,
     }
     return render(request, "home.html", context)
+
+
+def get_news_admin(request):
+    context = {}
+    return render(request, "get_news_admin.html", context)

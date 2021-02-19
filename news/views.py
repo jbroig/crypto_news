@@ -12,12 +12,40 @@ def scrape(request):
 
     content = session.get(url, verify=False).content
     soup = BSoup(content, "html.parser")
-    news = soup.find_all('article')
+    news = soup.find_all('article')  # Finds ALL the articles. Good job, mate.
 
     # print(news)
 
     for article in news:
-        main = article.find_all('a')[0]
+        main = article.find_all('h3', class_='jeg_post_title')[0]
+        main_a = main.find_all('a')[0]
+
+        url_link = main_a['href']
+        text = main_a.get_text()
+
+        # todo: skip less than 10 characters titles.
+        new_headline = Headline()
+        new_headline.url = url_link
+        new_headline.title = text
+
+        image_div = article.find_all('div', class_='jeg_thumb')
+        if image_div:
+            image_link = image_div[0].find_all('a')
+            if image_link:
+                image = image_link[0].find_all('img')[0]
+                image_src = image['data-lazy-src']
+                # print(image['data-lazy-src'])
+                print(image)
+                image_height = image['height']
+                image_width = image['width']
+                new_headline.image = image_src if image_src else None
+                new_headline.image_height = image_height if image_height else None
+                new_headline.image_width = image_width if image_width else None
+
+        print('-'*100)
+        new_headline.save()
+
+        '''
         main_src = article.find_all('img')
 
         if main_src:
@@ -36,7 +64,7 @@ def scrape(request):
             new_headline.image_height = height if height else None
             new_headline.image_width = width if width else None
             new_headline.save()
-
+        '''
     return redirect("../")
     # return redirect("../")
 

@@ -23,13 +23,26 @@ def scrape(request):
         url_link = main_a['href']
         text = main_a.get_text()
 
-        # todo: find asociated main images
         # todo: skip less than 10 characters titles.
-
         new_headline = Headline()
         new_headline.url = url_link
         new_headline.title = text
 
+        image_div = article.find_all('div', class_='jeg_thumb')
+        if image_div:
+            image_link = image_div[0].find_all('a')
+            if image_link:
+                image = image_link[0].find_all('img')[0]
+                image_src = image['data-lazy-src']
+                # print(image['data-lazy-src'])
+                print(image)
+                image_height = image['height']
+                image_width = image['width']
+                new_headline.image = image_src if image_src else None
+                new_headline.image_height = image_height if image_height else None
+                new_headline.image_width = image_width if image_width else None
+
+        print('-'*100)
         new_headline.save()
 
         '''

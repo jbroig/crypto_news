@@ -26,6 +26,11 @@ def scrape(request):
         new_headline.url = url_link
         new_headline.title = text
 
+        date_div = article.find_all('div', class_='jeg_meta_date')
+        if date_div:
+            date = date_div[0].get_text()
+            new_headline.publish_date = date
+
         image_div = article.find_all('div', class_='jeg_thumb')
         if image_div:
             image_link = image_div[0].find_all('a')
@@ -41,6 +46,7 @@ def scrape(request):
         new_headline.save()
 
     return redirect("../")
+
 
 def news_list(request):
     headlines = Headline.objects.all()[::-1]

@@ -64,8 +64,8 @@ def scrape(request):
 def news_list(request):
     headlines = Headline.objects.all()[::-1]
 
-    main_headlines = Headline.objects.filter(image_width=360)
-    no_image_link = Headline.objects.filter(image_width__gte=80, image_width__lte=120)
+    main_headlines = Headline.objects.filter(image_width=360)[:10]
+    no_image_link = Headline.objects.filter(image_width__gte=80, image_width__lte=120).order_by('created_date')[:10]
 
     context = {
         'main_headlines': main_headlines,

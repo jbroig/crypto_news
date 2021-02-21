@@ -25,6 +25,18 @@ def scrape(request):
         main = article.find_all('h3', class_='jeg_post_title')[0]
         main_a = main.find_all('a')[0]
 
+        category_post_div = article.find_all('div', class_='jeg_post_category')
+        if category_post_div:
+            category_div = category_post_div[0]
+            if category_div.find_all('a'):
+                category = category_div.get_text()
+                print(category)
+                print("-"*100)
+            else:
+                category = None
+        else:
+            category = None
+
         url_link = main_a['href']
         text = main_a.get_text()
         headline_id = int(hashlib.md5(text.encode('utf-8')).hexdigest(), 16)
@@ -38,6 +50,7 @@ def scrape(request):
             new_headline.title = text
             new_headline.headline_id = headline_id
             new_headline.created_date = datetime.now(tz=timezone.utc)
+            new_headline.category = category
 
             date_div = article.find_all('div', class_='jeg_meta_date')
             if date_div:
@@ -50,9 +63,10 @@ def scrape(request):
                 if image_link:
                     image = image_link[0].find_all('img')
                     if image:
+                        new_headline.has_image = True
                         image_src = image[0]['src']
-                        image_height = image['height']
-                        image_width = image['width']
+                        image_height = image[0]['height']
+                        image_width = image[0]['width']
                         new_headline.image = image_src if image_src else None
                         new_headline.image_height = image_height if image_height else None
                         new_headline.image_width = image_width if image_width else None

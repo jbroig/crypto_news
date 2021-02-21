@@ -48,13 +48,14 @@ def scrape(request):
             if image_div:
                 image_link = image_div[0].find_all('a')
                 if image_link:
-                    image = image_link[0].find_all('img')[0]
-                    image_src = image['data-lazy-src']
-                    image_height = image['height']
-                    image_width = image['width']
-                    new_headline.image = image_src if image_src else None
-                    new_headline.image_height = image_height if image_height else None
-                    new_headline.image_width = image_width if image_width else None
+                    image = image_link[0].find_all('img')
+                    if image:
+                        image_src = image[0]['src']
+                        image_height = image['height']
+                        image_width = image['width']
+                        new_headline.image = image_src if image_src else None
+                        new_headline.image_height = image_height if image_height else None
+                        new_headline.image_width = image_width if image_width else None
 
             new_headline.save()
 

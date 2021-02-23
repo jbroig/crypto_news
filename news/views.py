@@ -30,8 +30,6 @@ def scrape(request):
             category_div = category_post_div[0]
             if category_div.find_all('a'):
                 category = category_div.get_text()
-                print(category)
-                print("-"*100)
             else:
                 category = None
         else:
@@ -51,6 +49,7 @@ def scrape(request):
             new_headline.headline_id = headline_id
             new_headline.created_date = datetime.now(tz=timezone.utc)
             new_headline.category = category
+            new_headline.web = "criptonoticias.com"
 
             date_div = article.find_all('div', class_='jeg_meta_date')
             if date_div:
@@ -58,18 +57,28 @@ def scrape(request):
                 new_headline.publish_date = date
 
             image_div = article.find_all('div', class_='jeg_thumb')
+            has_image = False
             if image_div:
                 image_link = image_div[0].find_all('a')
                 if image_link:
                     image = image_link[0].find_all('img')
                     if image:
+                        has_image = True
                         new_headline.has_image = True
-                        image_src = image[0]['src']
+                        image_src = image[0]['data-lazy-src'] if image[0]['data-lazy-src'] else image[1]['src']
                         image_height = image[0]['height']
                         image_width = image[0]['width']
                         new_headline.image = image_src if image_src else None
                         new_headline.image_height = image_height if image_height else None
                         new_headline.image_width = image_width if image_width else None
+
+            if has_image:
+                if 360 <= int(image_width) < 750:
+                    new_headline.intern_category = "Artículos Principales"
+                if int(image_width) < 360:
+                    new_headline.intern_category = "Noticias al Día"
+            else:
+                new_headline.intern_category = "La columna"
 
             new_headline.save()
 
@@ -79,12 +88,13 @@ def scrape(request):
 def news_list(request):
     headlines = Headline.objects.all()[::-1]
 
-    main_headlines = Headline.objects.filter(image_width=360)[:10]
-    no_image_link = Headline.objects.filter(image_width__gte=80, image_width__lte=120).order_by('created_date')[:10]
+    main_headlines = Headline.objects.filter(intern_category='Artículos Principales').order_by('created_date')[:4]
+    #no_image_link = Headline.objects.filter(image_width__gte=80, image_width__lte=120).order_by('created_date')[:10]
+    no_image_news = Headline.objects.filter(has_image=False)
 
     context = {
         'main_headlines': main_headlines,
-        'no_image_link': no_image_link,
+        'no_image_link': no_image_news,
         # 'object_list': headlines,
     }
     return render(request, "home.html", context)

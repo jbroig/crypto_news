@@ -12,27 +12,63 @@
 </div>
 -->
 <div class="row mb-2">
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="row">
-            {% for article in main_headlines %}
-            <div class="col-md-6">
-                <div class="card mb-4 box-shadow" style="width:{{article.image_width}}px">
+            {% for article in main_headline %}
+            <div class="col-md-7">
+                <div class="card main_headline_card mb-4 box-shadow" style="width:450px">
                     <div class="card-body d-flex flex-column align-items-start">
-                        <strong class="d-inline-block mb-2 text-primary">World</strong>
+                        <strong class="d-inline-block mb-2 text-primary">{{main_headline.category}}</strong>
                         <h4 class="mb-0">
                             <a class="text-dark" href="{{article.url}}">{{article.title}}</a>
                         </h4>
                         <div class="mb-1 text-muted">{{article.publish_date}}</div>
                     </div>
                     <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb"
-                         alt="Card image cap" src="{{article.image}}" width="{{article.image_width}}"
+                         alt="Card image cap" src="{{article.image}}" width="450"
+                         height="{{article.image_height}}">
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-md-5">
+                <h4 class="mb-0">
+                    Lo último
+                </h4>
+                <br>
+                {% for article in last_news %}
+                <div class="card card_last_new">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted article-category">{{article.category}}</h6>
+                        <a class="text-dark" href="{{article.url}}"><h6 class="card-title">{{article.title}}</h6></a>
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <small> {{article.publish_date}}</small>
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+            </div>
+
+        </div>
+        <div class="row">
+            {% for article in common_news %}
+            <div class="col-md-6">
+                <div class="card headline_card mb-4 box-shadow" >
+                    <div class="card-body d-flex flex-column align-items-start">
+                        <strong class="d-inline-block mb-2 text-primary">{{main_headline.category}}</strong>
+                        <h4 class="mb-0">
+                            <a class="text-dark" href="{{article.url}}">{{article.title}}</a>
+                        </h4>
+                        <div class="mb-1 text-muted">{{article.publish_date}}</div>
+                    </div>
+                    <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb"
+                         alt="Card image cap" src="{{article.image}}" width="{{article.width}}"
                          height="{{article.image_height}}">
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="row right-panel-news">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
@@ -40,7 +76,7 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     {% for link in no_image_link %}
-                        <li class="list-group-item"><a href="{{link.url}}"> {{link.title}}</a></li>
+                    <li class="list-group-item"><a href="{{link.url}}"> {{link.title}}</a></li>
                     {% endfor %}
                 </ul>
             </div>

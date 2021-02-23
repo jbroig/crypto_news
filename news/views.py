@@ -91,15 +91,13 @@ def news_list(request):
     main_headline = Headline.objects.filter(intern_category='Artículos Principales').order_by('created_date')[:1]
     last_news = Headline.objects.filter(intern_category='La columna').order_by('created_date')[:2]
     common_news = Headline.objects.filter(intern_category='Artículos Principales').order_by('created_date')[1:]
-    #no_image_link = Headline.objects.filter(image_width__gte=80, image_width__lte=120).order_by('created_date')[:10]
-    no_image_news = Headline.objects.filter(has_image=False)
+    the_column_news = Headline.objects.filter(has_image=False).order_by('created_date')[2:10]
 
     context = {
         'main_headline': main_headline,
         'last_news': last_news,
         'common_news': common_news,
-        'no_image_link': no_image_news,
-        # 'object_list': headlines,
+        'the_column_news': the_column_news,
     }
     return render(request, "home.html", context)
 

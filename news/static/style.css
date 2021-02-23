@@ -134,3 +134,20 @@ h1, h2, h3, h4, h5, h6 {
 .right-panel-news{
     float: right;
 }
+
+.main_headline_card{
+    border: none;
+}
+
+.headline_card {
+    border: none;
+}
+
+.card_last_new{
+    width: 18rem;
+    border: none;
+}
+
+.article-category {
+    color: #7295f9 !important;
+}

@@ -88,12 +88,16 @@ def scrape(request):
 def news_list(request):
     headlines = Headline.objects.all()[::-1]
 
-    main_headlines = Headline.objects.filter(intern_category='Artículos Principales').order_by('created_date')[:4]
+    main_headline = Headline.objects.filter(intern_category='Artículos Principales').order_by('created_date')[:1]
+    last_news = Headline.objects.filter(intern_category='La columna').order_by('created_date')[:2]
+    common_news = Headline.objects.filter(intern_category='Artículos Principales').order_by('created_date')[1:]
     #no_image_link = Headline.objects.filter(image_width__gte=80, image_width__lte=120).order_by('created_date')[:10]
     no_image_news = Headline.objects.filter(has_image=False)
 
     context = {
-        'main_headlines': main_headlines,
+        'main_headline': main_headline,
+        'last_news': last_news,
+        'common_news': common_news,
         'no_image_link': no_image_news,
         # 'object_list': headlines,
     }
